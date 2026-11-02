@@ -22,3 +22,10 @@ export type TallyEntry = MoneybookEntry;
 export interface CategoryTree {
   [mainCategory: string]: string[];
 }
+
+export interface StorageInfo {
+  current_dir: string;
+  is_custom: boolean;
+  json_path: string;
+  csv_path: string;
+}

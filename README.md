@@ -96,11 +96,12 @@ If you installed Tally by dragging the `.app` manually:
 
 ## ✨ Features
 
-- **💾 100% Local-First & Zero Tracking**:
-  - All ledger entries are stored in a local JSON file (`~/Library/Application Support/Tally/tally_data.json`) on your Mac.
+- **💾 100% Local-First, Custom Storage & Live Excel (CSV) Sync**:
+  - Store your financial data in the default Mac app support folder or choose any **custom folder** (e.g. iCloud Drive, Dropbox, Documents) via the native macOS folder picker.
+  - Automatically generates and keeps in sync a **`tally_transactions.csv`** file in your storage folder with **UTF-8 BOM (`\uFEFF`)** encoding—double-click to open immediately in Microsoft Excel, Apple Numbers, or Google Sheets without Korean character corruption.
   - Zero cloud dependencies, zero external network requests, zero telemetry, and zero ads.
   - Safe atomic file writes (`.tmp` rename) with 250ms debounced disk I/O ensure corruption-free persistence across crashes.
-  - Reveal data file directly in Finder anytime via the header button or Command Palette (`⌘K`).
+  - Reveal data folder in Finder or open live CSV in Excel with 1 click anytime via the header button or Command Palette (`⌘K`).
 - **⚖️ Baselane-Style Reconciliation & Review**:
   - **Two-Step Review State**: Every transaction stays `Pending Review` until verified as `Reviewed`.
   - **1-Click Micro Actions**: Rapidly toggle review status in timeline feed or bulk spreadsheet.
@@ -270,11 +271,13 @@ Homebrew 없이 `.dmg`로 직접 설치하셨던 경우:
 
 ## ✨ 핵심 기능
 
-- **💾 100% Mac 로컬 저장소 (Local-First & 제로 트래킹)**:
-  - 모든 장부 데이터는 외부 클라우드로 전송되지 않고 내 맥의 로컬 파일(`~/Library/Application Support/Tally/tally_data.json`)에만 안전하게 보관됩니다.
-  - 광고, 유료 구독 모델, 트래커가 전혀 없는 순수 오프라인 로컬 우선 아키텍처입니다.
+- **💾 100% 로컬 저장소, 사용자 지정 폴더 & 실시간 엑셀(CSV) 동기화**:
+  - 기본 위치(`~/Library/Application Support/Tally/`)뿐만 아니라, **iCloud Drive, Dropbox, 문서 폴더 등 원하는 위치로 저장 폴더를 자유롭게 변경**할 수 있습니다 (macOS 네이티브 폴더 선택 다이얼로그 지원).
+  - 지출/수입이 기록될 때마다 장부 폴더에 **`tally_transactions.csv` 파일이 실시간 자동 생성 및 동기화**됩니다.
+  - **UTF-8 BOM (`\uFEFF`)** 인코딩이 적용되어 텍스트 변환 마법사 없이 **Microsoft Excel, Numbers에서 더블클릭만으로 한글 깨짐 없이 깨끗하게 즉시 열람**할 수 있습니다.
+  - iCloud Drive나 Dropbox 폴더로 지정 시 별도의 서버 비용 없이 여러 맥(Mac) 기기간 자동 동기화 가계부로 활용할 수 있습니다.
   - 임시 파일 교체 방식의 원자적(Atomic) 쓰기와 250ms 디바운스를 적용하여 비정상 종료 시에도 데이터 손상을 방지합니다.
-  - 헤더의 '로컬 저장소' 버튼이나 `⌘K` 메뉴를 통해 언제든 Finder에서 내 데이터 파일을 확인할 수 있습니다.
+  - 상단 헤더의 '저장소 & 엑셀' 버튼이나 `⌘K` 메뉴를 통해 언제든 1-클릭으로 엑셀을 열거나 Finder에서 파일을 확인할 수 있습니다.
 - **⚖️ Baselane 스타일 장부 대조 및 검토 (Reconciliation & Review)**:
   - **2단계 상태 관리**: 모든 거래는 '검토 필요(대기)' ➔ '검토 완료' 상태로 체계적으로 대조됩니다.
   - **원클릭 마이크로 버튼**: 피드와 시트에서 1-클릭으로 즉각 검토 완료 전환.

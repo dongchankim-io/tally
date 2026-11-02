@@ -33,6 +33,7 @@ interface HeaderProps {
   onOpenCommandPalette: () => void;
   onToggleTheme: () => void;
   onOpenDataFolder?: () => void;
+  onOpenStorageSettings?: () => void;
   isDark: boolean;
 }
 
@@ -51,6 +52,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   onOpenCommandPalette,
   onToggleTheme,
   onOpenDataFolder,
+  onOpenStorageSettings,
   isDark
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -257,17 +259,17 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             </button>
           </Tooltip>
 
-          {/* Local Storage Finder Button */}
-          {onOpenDataFolder && (
+          {/* Local Storage & CSV Settings Button */}
+          {onOpenStorageSettings && (
             <>
               <div className="h-3 w-[1px] bg-black/[0.08] dark:bg-white/[0.1] mx-0.5" />
-              <Tooltip content="Mac 로컬 저장소 위치 열기 (Finder)">
+              <Tooltip content="로컬 저장소 폴더 및 엑셀(CSV) 설정">
                 <button
-                  onClick={onOpenDataFolder}
+                  onClick={onOpenStorageSettings}
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium text-neutral-600 dark:text-neutral-300 bg-black/[0.03] dark:bg-white/[0.05] hover:bg-black/[0.06] dark:hover:bg-white/10 transition-colors cursor-pointer"
                 >
-                  <FolderOpen className="w-3 h-3 text-neutral-500" />
-                  <span className="hidden sm:inline">로컬 저장소</span>
+                  <FolderOpen className="w-3 h-3 text-[#007AFF]" />
+                  <span className="hidden sm:inline">저장소 & 엑셀</span>
                 </button>
               </Tooltip>
             </>

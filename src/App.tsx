@@ -8,7 +8,8 @@ import { BulkTable } from './components/BulkTable';
 import { AnalyticsView } from './components/AnalyticsView';
 import { QuickPasteModal } from './components/QuickPasteModal';
 import { CommandPalette } from './components/CommandPalette';
-import { MoneybookEntry, ViewMode } from './types/moneybook';
+import { StorageSettingsModal } from './components/StorageSettingsModal';
+import { MoneybookEntry, ViewMode, StorageInfo } from './types/moneybook';
 import { generateId, getTodayDate } from './utils/parser';
 import { exportToExcel } from './utils/excelExporter';
 import { parseExcelFile } from './utils/excelImporter';
@@ -17,9 +18,30 @@ import { CurrencyCode } from './utils/currency';
 declare global {
   interface Window {
     tallyAPI?: {
-      loadData: () => Promise<{ success: boolean; data: MoneybookEntry[] | null; filePath?: string }>;
-      saveData: (data: MoneybookEntry[]) => Promise<{ success: boolean; filePath?: string }>;
+      loadData: () => Promise<{
+        success: boolean;
+        data: MoneybookEntry[] | null;
+        filePath?: string;
+        csvPath?: string;
+        storageInfo?: StorageInfo;
+      }>;
+      saveData: (data: MoneybookEntry[]) => Promise<{
+        success: boolean;
+        filePath?: string;
+        csvPath?: string;
+        storageInfo?: StorageInfo;
+      }>;
       openDataFolder: () => Promise<{ success: boolean; filePath?: string }>;
+      openCsvFile: () => Promise<boolean>;
+      getStorageInfo: () => Promise<StorageInfo | null>;
+      chooseFolderDialog: () => Promise<string | null>;
+      setStorageFolder: (folder: string | null) => Promise<{
+        success: boolean;
+        data: MoneybookEntry[] | null;
+        filePath?: string;
+        csvPath?: string;
+        storageInfo?: StorageInfo;
+      }>;
       openExternal: (url: string) => Promise<boolean>;
     };
   }
@@ -238,19 +260,30 @@ export function App() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isQuickPasteOpen, setIsQuickPasteOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isStorageSettingsOpen, setIsStorageSettingsOpen] = useState(false);
+  const [storageInfo, setStorageInfo] = useState<StorageInfo | null>(null);
 
-  // Initial load from Mac Local Storage (~/Library/Application Support/Tally/tally_data.json)
-  useEffect(() => {
+  // Initial load from Mac Local Storage
+  const reloadData = useCallback(() => {
     if (window.tallyAPI) {
       window.tallyAPI.loadData().then(res => {
-        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
-          setEntries(res.data);
+        if (res.success) {
+          if (Array.isArray(res.data) && res.data.length > 0) {
+            setEntries(res.data);
+          }
+          if (res.storageInfo) {
+            setStorageInfo(res.storageInfo);
+          }
         }
       }).catch(err => {
         console.error('Failed to load local file data:', err);
       });
     }
   }, []);
+
+  useEffect(() => {
+    reloadData();
+  }, [reloadData]);
 
   // Theme & Currency Sync
   useEffect(() => {
@@ -512,6 +545,17 @@ export function App() {
     }
   }, []);
 
+  const handleOpenCsvFile = useCallback(async () => {
+    if (window.tallyAPI) {
+      const ok = await window.tallyAPI.openCsvFile();
+      if (!ok) {
+        alert('엑셀(CSV) 파일이 아직 생성되지 않았습니다. 장부 내역이 저장되면 자동으로 생성됩니다.');
+      }
+    } else {
+      alert('데스크톱 앱 환경에서 지원되는 기능입니다.');
+    }
+  }, []);
+
   return (
     <div className="flex flex-col h-full bg-[#F5F5F7] dark:bg-[#0A0A0C] font-sans text-neutral-900 dark:text-neutral-100 antialiased selection:bg-neutral-900 selection:text-white dark:selection:bg-white dark:selection:text-black">
       {/* Top Header with traffic light safe spacing */}
@@ -530,6 +574,7 @@ export function App() {
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         onToggleTheme={handleToggleTheme}
         onOpenDataFolder={handleOpenDataFolder}
+        onOpenStorageSettings={() => setIsStorageSettingsOpen(true)}
         isDark={isDark}
       />
 
@@ -603,6 +648,8 @@ export function App() {
         onExportExcel={handleExportExcel}
         onToggleTheme={handleToggleTheme}
         onOpenDataFolder={handleOpenDataFolder}
+        onOpenStorageSettings={() => setIsStorageSettingsOpen(true)}
+        onOpenCsvFile={handleOpenCsvFile}
         onMarkAllReviewed={handleMarkAllMonthReviewed}
         isDark={isDark}
       />
@@ -614,13 +661,25 @@ export function App() {
         onImport={handleImportParsed}
       />
 
+      {/* Storage Settings & CSV Modal */}
+      <StorageSettingsModal
+        isOpen={isStorageSettingsOpen}
+        onClose={() => setIsStorageSettingsOpen(false)}
+        storageInfo={storageInfo}
+        onStorageInfoChange={setStorageInfo}
+        onReloadEntries={reloadData}
+      />
+
       {/* Clean Open-Source Footer Status Bar */}
       <footer className="px-6 py-2 border-t border-black/[0.04] dark:border-white/[0.06] flex items-center justify-between text-[11px] text-neutral-400 select-none">
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 font-medium">
+          <button
+            onClick={() => setIsStorageSettingsOpen(true)}
+            className="flex items-center gap-1.5 font-medium hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors cursor-pointer"
+          >
             <span className="w-1.5 h-1.5 rounded-full bg-[#34C759]" />
-            100% Mac Local Storage
-          </span>
+            <span>{storageInfo?.is_custom ? 'Custom Storage (CSV Live Sync)' : '100% Mac Local Storage (CSV Sync)'}</span>
+          </button>
           <span>•</span>
           <span>Zero Network Tracking</span>
         </div>

@@ -12,6 +12,7 @@ import {
   Sun,
   CheckCircle2,
   FolderOpen,
+  HardDrive,
   X
 } from 'lucide-react';
 import { ViewMode } from '../types/moneybook';
@@ -29,6 +30,8 @@ interface CommandPaletteProps {
   onExportExcel: () => void;
   onToggleTheme: () => void;
   onOpenDataFolder?: () => void;
+  onOpenStorageSettings?: () => void;
+  onOpenCsvFile?: () => void;
   onMarkAllReviewed?: () => void;
   isDark: boolean;
 }
@@ -44,6 +47,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = React.memo(({
   onExportExcel,
   onToggleTheme,
   onOpenDataFolder,
+  onOpenStorageSettings,
+  onOpenCsvFile,
   onMarkAllReviewed,
   isDark
 }) => {
@@ -92,8 +97,14 @@ export const CommandPalette: React.FC<CommandPaletteProps> = React.memo(({
         { id: 'act-add', label: '새 지출 항목 추가', icon: <Plus className="w-4 h-4" />, shortcut: '⌘N', run: onAddRow },
         { id: 'act-paste', label: '스마트 결제 문자 붙여넣기', icon: <Sparkles className="w-4 h-4 text-[#5856D6]" />, shortcut: '⌘V', run: onOpenQuickPaste },
         { id: 'act-excel', label: '호환 엑셀 파일로 내보내기', icon: <FileSpreadsheet className="w-4 h-4 text-[#34C759]" />, shortcut: '⌘E', run: onExportExcel },
+        ...(onOpenCsvFile ? [
+          { id: 'act-csv-open', label: '실시간 가계부 엑셀(CSV) 파일로 바로 열기', icon: <FileSpreadsheet className="w-4 h-4 text-[#34C759]" />, shortcut: '', run: onOpenCsvFile }
+        ] : []),
+        ...(onOpenStorageSettings ? [
+          { id: 'act-storage-settings', label: '가계부 저장 폴더 & 엑셀(CSV) 설정 열기', icon: <HardDrive className="w-4 h-4 text-[#007AFF]" />, shortcut: '', run: onOpenStorageSettings }
+        ] : []),
         ...(onOpenDataFolder ? [
-          { id: 'act-folder', label: 'Mac 로컬 저장소 위치 열기 (Finder)', icon: <FolderOpen className="w-4 h-4 text-[#007AFF]" />, shortcut: '', run: onOpenDataFolder }
+          { id: 'act-folder', label: 'Mac 로컬 저장소 폴더 열기 (Finder)', icon: <FolderOpen className="w-4 h-4 text-[#007AFF]" />, shortcut: '', run: onOpenDataFolder }
         ] : []),
         ...(onMarkAllReviewed ? [
           { id: 'act-review-all', label: '이번 달 모든 내역 검토 완료 마크 (Reconciliation)', icon: <CheckCircle2 className="w-4 h-4 text-[#34C759]" />, shortcut: '', run: onMarkAllReviewed }
