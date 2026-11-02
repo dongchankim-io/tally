@@ -5,6 +5,7 @@ set shell := ["zsh", "-cu"]
 # Default settings
 VERSION := `node -p "require('./package.json').version"`
 GITHUB_REPO := env_var_or_default("GITHUB_REPO", "dongchankim-io/tally")
+TAP_REPO := env_var_or_default("TAP_REPO", "dongchankim-io/homebrew-tap")
 
 # Default command: display available recipes
 default:
@@ -140,22 +141,39 @@ cask version=VERSION:
     echo "✅ Homebrew Cask formula generated at Casks/tally.rb"
     cat Casks/tally.rb
 
-# Commit and publish cask formula directly in this repository
+# Publish cask formula to both this repo and homebrew-tap
 publish-brew version=VERSION: (cask version)
     #!/usr/bin/env bash
     set -euo pipefail
-    echo "==> Updating Casks/tally.rb in {{GITHUB_REPO}}..."
+    echo "==> [1/2] Updating Casks/tally.rb in {{GITHUB_REPO}}..."
     git add Casks/tally.rb
     if git diff --cached --quiet; then
-        echo "Casks/tally.rb is already up to date."
+        echo "Local Casks/tally.rb is already up to date."
     else
         git commit -m "chore(cask): update Tally cask to v{{version}}"
         git push origin HEAD 2>/dev/null || echo "Note: Run 'git push' to sync changes to remote."
     fi
-    echo "🎉 Successfully updated Tally v{{version}} cask in {{GITHUB_REPO}}!"
+
+    echo "==> [2/2] Updating {{TAP_REPO}}..."
+    TEMP_DIR=$(mktemp -d)
+    if gh repo clone "{{TAP_REPO}}" "$TEMP_DIR" 2>/dev/null; then
+        mkdir -p "$TEMP_DIR/Casks"
+        cp Casks/tally.rb "$TEMP_DIR/Casks/tally.rb"
+        cd "$TEMP_DIR"
+        git add Casks/tally.rb
+        if git diff --cached --quiet; then
+            echo "Tap repository is already up to date."
+        else
+            git commit -m "chore: update Tally cask to v{{version}}"
+            git push origin HEAD
+        fi
+        rm -rf "$TEMP_DIR"
+        echo "🎉 Successfully published Tally v{{version}} to {{TAP_REPO}}!"
+    fi
+
     echo ""
     echo "Users can install Tally with:"
-    echo "  brew install --cask {{GITHUB_REPO}}/tally"
+    echo "  brew install --cask dongchankim-io/tap/tally"
 
 # Full release pipeline: check, build-dmg, release, and publish-brew
 ship version=VERSION: (check) (release version) (publish-brew version)
