@@ -42,8 +42,25 @@ brew upgrade tally
 3. Drag **Tally.app** into your **Applications** folder.
 4. Launch Tally from Spotlight (`⌘ Space` -> type `Tally`) or Launchpad.
 
-> [!TIP]
-> **macOS Gatekeeper First Launch**: Because Tally is an independent open-source project without a paid Apple Developer notarization certificate, macOS might show a warning on first launch. If prompted, simply **Right-click (Control-click) `Tally.app` in Finder -> Open -> Click Open**.
+---
+
+### 🛡️ Resolving macOS Gatekeeper & First Launch Security Warnings
+
+Tally is a free, 100% open-source privacy-focused application. Because it is distributed without an expensive annual Apple Developer Program commercial license, macOS Gatekeeper may restrict execution on the first launch. Here is how to easily resolve it:
+
+#### Scenario A: *"Apple cannot verify the developer"* or *"Unidentified Developer"*
+- **Quick Fix (Finder)**: Open **Finder** -> navigate to **Applications** -> **Right-click (Control-click)** `Tally.app` -> click **Open** -> click **Open** in the dialog. (This only needs to be done once).
+- **System Settings Alternative**: Open ** Apple Menu** -> **System Settings** -> **Privacy & Security** -> scroll down to **Security** -> click **"Open Anyway"** next to Tally.
+
+#### Scenario B: *"Tally.app is damaged and cannot be opened. You should move it to the Trash."*
+> [!NOTE]
+> The app is **not actually damaged**. This is Apple Gatekeeper's default security behavior for downloaded open-source software marked with the quarantine flag (`com.apple.quarantine`).
+
+To clear the quarantine flag and open Tally immediately, run this single command in Terminal:
+```bash
+xattr -cr /Applications/Tally.app
+```
+Then simply click **Tally.app** to start!
 
 ---
 
@@ -217,8 +234,30 @@ brew upgrade tally
 3. **Tally.app**을 **Applications** 폴더로 드래그합니다.
 4. Spotlight(`⌘ Space` ➔ `Tally` 입력) 또는 런치패드에서 앱을 실행합니다.
 
-> [!TIP]
-> **macOS 게이트키퍼(Gatekeeper) 첫 실행 안내**: Tally는 애플 개발자 유료 인증서를 구입하지 않고 오픈소스로 배포되는 무료 소프트웨어이므로, 최초 1회 실행 시 *"확인되지 않은 개발자가 배포했기 때문에 열 수 없습니다"*라는 경고가 뜰 수 있습니다. 이때는 당황하지 마시고 **Finder의 응용 프로그램 폴더에서 `Tally.app`을 마우스 우클릭(또는 Control+클릭) ➔ [열기] ➔ 팝업창에서 [열기]**를 클릭해 주시면 이후부터는 정상 실행됩니다.
+---
+
+### 🛡️ 첫 실행 시 macOS 보안 경고 및 권한 차단 해결 방법
+
+Tally는 광고나 추적기 없이 100% 무료로 배포되는 오픈소스 프로젝트입니다. 연간 수십만 원의 Apple 상업용 개발자 유료 인증서(Notarization)를 별도로 구입하지 않고 배포되기 때문에, **macOS 게이트키퍼(Gatekeeper)가 첫 실행 시 보안 격리 속성을 부여하여 차단**할 수 있습니다. 아래 방법으로 1회만 허용해 주시면 이후부터는 아무 문제 없이 실행됩니다.
+
+#### 상황 1: *"확인되지 않은 개발자가 배포했기 때문에 열 수 없습니다"* 경고창
+- **가장 빠른 해결법 (Finder 우클릭)**:
+  1. Finder를 열고 **응용 프로그램(Applications)** 폴더로 이동합니다.
+  2. `Tally.app`을 **마우스 우클릭(또는 키보드 Control을 누른 채 클릭)**합니다.
+  3. 메뉴에서 **[열기]**를 선택합니다.
+  4. 팝업창에서 **[열기]** 버튼을 클릭하면 실행 권한이 영구 승인됩니다. (최초 1회만 수행)
+- **시스템 설정에서 허용하는 법**:
+  - Mac 상단 **Apple 메뉴()** ➔ **시스템 설정** ➔ **개인정보 보호 및 보안** ➔ 화면을 아래로 스크롤하여 **보안** 섹션의 *"Tally.app이(가) 차단되었습니다"* 옆의 **[확인 없이 열기]** 버튼을 클릭합니다.
+
+#### 상황 2: *"Tally.app이(가) 손상되었기 때문에 열 수 없습니다. 휴지통으로 이동해야 합니다."* 오류
+> [!NOTE]
+> 앱 파일이 **실제로 손상된 것이 아닙니다.** Mac App Store 외의 인터넷이나 Homebrew로 내려받은 오픈소스 파일에 macOS가 붙이는 보안 격리 플래그(`com.apple.quarantine`)로 인해 나타나는 표준 방어 기제입니다.
+
+터미널(Terminal)을 열고 아래 명령어를 1회 입력하시면 격리 속성이 즉시 해제되어 정상 실행됩니다:
+```bash
+xattr -cr /Applications/Tally.app
+```
+실행 후 다시 `Tally.app`을 실행하시면 정상적으로 작동합니다.
 
 ---
 
