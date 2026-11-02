@@ -39,6 +39,20 @@ brew upgrade tally
 1. Download the latest `Tally-x.x.x-aarch64.dmg` from the [**GitHub Releases**](https://github.com/dongchankim-io/tally/releases/latest) page.
 2. Open the `.dmg` and drag `Tally.app` into your `/Applications` folder.
 
+### 🗑️ Complete Clean Uninstallation
+
+To remove Tally along with **all local data, settings, and cache files** completely:
+
+```bash
+brew uninstall --cask --zap tally
+```
+*(This deletes the application and purges `~/Library/Application Support/Tally`, preferences, and WKWebView state without leaving a trace).*
+
+To remove only the application binary while keeping your ledger data:
+```bash
+brew uninstall --cask tally
+```
+
 ---
 
 ## ✨ Features
@@ -159,6 +173,20 @@ brew upgrade tally
 
 1. [**GitHub Releases**](https://github.com/dongchankim-io/tally/releases/latest) 페이지에서 최신 `Tally-x.x.x-aarch64.dmg` 파일을 다운로드합니다.
 2. 다운로드한 `.dmg` 파일을 열고 `Tally.app`을 `Applications` 폴더로 드래그합니다.
+
+### 🗑️ 완전 삭제 (Clean Uninstallation)
+
+가계부 데이터, 설정, 캐시 파일까지 **단 하나의 흔적도 남기지 않고 100% 완전 삭제**하려면:
+
+```bash
+brew uninstall --cask --zap tally
+```
+*(`Tally.app`뿐만 아니라 `~/Library/Application Support/Tally` 내부의 모든 장부 데이터 파일과 환경설정이 영구적으로 깔끔하게 삭제됩니다).*
+
+장부 데이터는 남겨두고 앱만 삭제할 때:
+```bash
+brew uninstall --cask tally
+```
 
 ---
 
