@@ -5,7 +5,7 @@ set shell := ["zsh", "-cu"]
 # Default settings
 VERSION := `node -p "require('./package.json').version"`
 GITHUB_REPO := env_var_or_default("GITHUB_REPO", "dongchankim-io/tally")
-TAP_REPO := env_var_or_default("TAP_REPO", "dongchankim-io/homebrew-tap")
+TAP_REPO := env_var_or_default("TAP_REPO", "dongchankim-io/homebrew-tally")
 
 # Default command: display available recipes
 default:
@@ -173,7 +173,7 @@ publish-brew version=VERSION: (cask version)
 
     echo ""
     echo "Users can install Tally with:"
-    echo "  brew install --cask dongchankim-io/tap/tally"
+    echo "  brew install --cask dongchankim-io/tally/tally"
 
 # Full release pipeline: check, build-dmg, release, and publish-brew
 ship version=VERSION: (check) (release version) (publish-brew version)

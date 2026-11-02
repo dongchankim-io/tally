@@ -20,13 +20,13 @@ You can install Tally directly using Homebrew:
 
 ```bash
 # Tap the repository and install
-brew tap dongchankim-io/tap
+brew tap dongchankim-io/tally
 brew install --cask tally
 ```
 
 *Or via one-liner:*
 ```bash
-brew install --cask dongchankim-io/tap/tally
+brew install --cask dongchankim-io/tally/tally
 ```
 
 To update Tally in the future:
@@ -141,13 +141,13 @@ just ship
 
 ```bash
 # 탭 등록 및 설치
-brew tap dongchankim-io/tap
+brew tap dongchankim-io/tally
 brew install --cask tally
 ```
 
 *또는 한 줄 명령어로 바로 설치:*
 ```bash
-brew install --cask dongchankim-io/tap/tally
+brew install --cask dongchankim-io/tally/tally
 ```
 
 최신 버전으로 업데이트할 때:
