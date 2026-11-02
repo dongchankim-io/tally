@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { ViewMode } from '../types/moneybook';
 import { CurrencyCode } from '../utils/currency';
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { isTauri } from '@tauri-apps/api/core';
 import { Tooltip } from './Tooltip';
 
 interface HeaderProps {
@@ -72,11 +74,46 @@ export const Header: React.FC<HeaderProps> = React.memo(({
     }
   };
 
+  const handleMouseDown = async (e: React.MouseEvent) => {
+    // Only drag on primary (left) button click
+    if (e.button !== 0) return;
+    const target = e.target as HTMLElement | null;
+    if (target && target.closest('button, input, select, a, [role="button"]')) {
+      return;
+    }
+    if (isTauri()) {
+      try {
+        await getCurrentWindow().startDragging();
+      } catch (err) {
+        console.error('Failed to start dragging window:', err);
+      }
+    }
+  };
+
+  const handleDoubleClick = async (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement | null;
+    if (target && target.closest('button, input, select, a, [role="button"]')) {
+      return;
+    }
+    if (isTauri()) {
+      try {
+        await getCurrentWindow().toggleMaximize();
+      } catch (err) {
+        console.error('Failed to toggle maximize window:', err);
+      }
+    }
+  };
+
   return (
-    <header className="titlebar-drag bg-white/70 dark:bg-[#121316]/75 backdrop-blur-2xl border-b border-black/[0.04] dark:border-white/[0.08] px-5 py-3 sticky top-0 z-30 select-none">
-      <div className="flex items-center justify-between">
+    <header
+      data-tauri-drag-region
+      onMouseDown={handleMouseDown}
+      onDoubleClick={handleDoubleClick}
+      className="titlebar-drag bg-white/70 dark:bg-[#121316]/75 backdrop-blur-2xl border-b border-black/[0.04] dark:border-white/[0.08] px-5 py-3 sticky top-0 z-30 select-none cursor-default"
+    >
+      <div data-tauri-drag-region className="flex items-center justify-between">
         {/* Left: Traffic light safe spacer (84px) + App Name & Month Segment */}
-        <div className="flex items-center gap-3 pl-[84px] shrink-0">
+        <div data-tauri-drag-region className="flex items-center gap-3 pl-[84px] shrink-0">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-gradient-to-r from-violet-500 to-[#00FF85] shadow-[0_0_8px_rgba(139,92,246,0.8)] inline-block"></span>
             <span className="text-[13px] font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100">
