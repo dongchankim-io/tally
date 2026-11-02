@@ -16,6 +16,7 @@ import {
 import { MoneybookEntry, EntryType } from '../types/moneybook';
 import { CATEGORY_COLORS } from '../utils/categories';
 import { CurrencyCode, formatCurrency, CURRENCIES } from '../utils/currency';
+import { NeonSplineChart } from './NeonSplineChart';
 import { Tooltip } from './Tooltip';
 
 interface AnalyticsViewProps {
@@ -321,6 +322,13 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = React.memo(({ entries
           </div>
         </div>
       </div>
+
+      {/* Neon Spline Chart: Daily Cumulative Pace Curve */}
+      <NeonSplineChart
+        entries={entries}
+        currentDate={currentDate}
+        currency={currency}
+      />
 
       {/* Main Section: Category-by-Category MoM Comparison */}
       <div className="glass-panel rounded-3xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_32px_rgba(0,0,0,0.2)] space-y-5">

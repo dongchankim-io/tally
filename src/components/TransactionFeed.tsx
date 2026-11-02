@@ -22,6 +22,7 @@ import {
 import { MoneybookEntry } from '../types/moneybook';
 import { CATEGORY_COLORS } from '../utils/categories';
 import { CurrencyCode, formatCurrency } from '../utils/currency';
+import { detectZalphaTag } from '../utils/zalpha';
 import { Tooltip } from './Tooltip';
 
 interface TransactionFeedProps {
@@ -237,16 +238,16 @@ export const TransactionFeed: React.FC<TransactionFeedProps> = React.memo(({
 
             return (
               <div key={date} className="space-y-2">
-                <div className="flex items-center justify-between text-xs px-2 select-none sticky top-0 bg-[#F5F5F7]/90 dark:bg-[#0A0A0C]/90 backdrop-blur py-1 z-10">
+                <div className="flex items-center justify-between text-xs px-2 select-none sticky top-0 bg-[#F5F5F7]/90 dark:bg-[#0D0E12]/90 backdrop-blur py-1 z-10">
                   <span className="font-semibold text-neutral-500 dark:text-neutral-400 text-[11px] tracking-tight">
                     {formatDateHeader(date)}
                   </span>
-                  <span className="text-[11px] font-medium text-neutral-400 tabular-nums">
+                  <span className="text-[11px] font-bold text-neutral-400 dark:text-neutral-500 tabular-nums">
                     {dayExpense > 0 ? `${formatCurrency(dayExpense, currency)}` : ''}
                   </span>
                 </div>
 
-                <div className="glass-panel rounded-2xl divide-y divide-black/[0.03] dark:divide-white/[0.04] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+                <div className="glass-panel rounded-2xl divide-y divide-black/[0.03] dark:divide-white/[0.04] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden hover:border-violet-500/20 transition-all">
                   {items.map(item => {
                     const color = CATEGORY_COLORS[item.mainCategory] || {
                       hex: '#8E8E93',
@@ -254,11 +255,12 @@ export const TransactionFeed: React.FC<TransactionFeedProps> = React.memo(({
                     };
 
                     const itemCurr = item.currency || currency;
+                    const zTag = detectZalphaTag(item.payee, item.memo, item.subCategory);
 
                     return (
                       <div
                         key={item.id}
-                        className="content-auto px-4 py-3 flex items-center justify-between hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors group"
+                        className="content-auto px-4 py-3 flex items-center justify-between hover:bg-violet-500/[0.025] dark:hover:bg-violet-500/[0.04] transition-colors group"
                       >
                         <div className="flex items-center gap-3.5 min-w-0">
                           <div 
@@ -269,10 +271,16 @@ export const TransactionFeed: React.FC<TransactionFeedProps> = React.memo(({
                           </div>
 
                           <div className="min-w-0">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 flex-wrap">
                               <span className="text-[13px] font-semibold text-neutral-900 dark:text-neutral-100 tracking-tight truncate">
                                 {item.payee}
                               </span>
+                              {zTag && (
+                                <span className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border shadow-2xs ${zTag.colorClass}`}>
+                                  <span>{zTag.emoji}</span>
+                                  <span>{zTag.label}</span>
+                                </span>
+                              )}
                               {item.memo && (
                                 <span className="text-[11px] text-neutral-400 truncate max-w-[200px]">
                                   • {item.memo}

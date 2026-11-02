@@ -73,13 +73,16 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   };
 
   return (
-    <header className="titlebar-drag bg-white/70 dark:bg-[#161618]/70 backdrop-blur-2xl border-b border-black/[0.04] dark:border-white/[0.06] px-5 py-3 sticky top-0 z-30 select-none">
+    <header className="titlebar-drag bg-white/70 dark:bg-[#121316]/75 backdrop-blur-2xl border-b border-black/[0.04] dark:border-white/[0.08] px-5 py-3 sticky top-0 z-30 select-none">
       <div className="flex items-center justify-between">
         {/* Left: Traffic light safe spacer (84px) + App Name & Month Segment */}
         <div className="flex items-center gap-3 pl-[84px] shrink-0">
-          <span className="text-[13px] font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-            Tally
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-violet-500 to-[#00FF85] shadow-[0_0_8px_rgba(139,92,246,0.8)] inline-block"></span>
+            <span className="text-[13px] font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100">
+              Tally
+            </span>
+          </div>
 
           {/* Month Segment Pill */}
           <div className="titlebar-no-drag flex items-center bg-black/[0.04] dark:bg-white/[0.06] p-0.5 rounded-full border border-black/[0.03] dark:border-white/[0.04]">
@@ -97,7 +100,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 className={`px-2.5 py-0.5 text-[11px] tracking-tight font-medium rounded-full transition-all cursor-pointer ${
                   isCurrentMonth()
                     ? 'text-neutral-800 dark:text-neutral-200'
-                    : 'text-[#34C759] font-semibold'
+                    : 'text-[#00D96C] dark:text-[#00FF85] font-bold'
                 }`}
               >
                 {year}년 {month}월
@@ -121,7 +124,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               onClick={() => onChangeViewMode('feed')}
               className={`flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium rounded-full transition-all cursor-pointer ${
                 viewMode === 'feed'
-                  ? 'bg-white dark:bg-[#2C2C2E] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+                  ? 'bg-white dark:bg-[#1E212B] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.1),_inset_0_1px_0_rgba(255,255,255,0.08)] font-semibold'
                   : 'text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200'
               }`}
             >
@@ -134,7 +137,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               onClick={() => onChangeViewMode('calendar')}
               className={`flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium rounded-full transition-all cursor-pointer ${
                 viewMode === 'calendar'
-                  ? 'bg-white dark:bg-[#2C2C2E] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+                  ? 'bg-white dark:bg-[#1E212B] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.1),_inset_0_1px_0_rgba(255,255,255,0.08)] font-semibold'
                   : 'text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200'
               }`}
             >
@@ -147,7 +150,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               onClick={() => onChangeViewMode('spreadsheet')}
               className={`flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium rounded-full transition-all cursor-pointer ${
                 viewMode === 'spreadsheet'
-                  ? 'bg-white dark:bg-[#2C2C2E] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+                  ? 'bg-white dark:bg-[#1E212B] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.1),_inset_0_1px_0_rgba(255,255,255,0.08)] font-semibold'
                   : 'text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200'
               }`}
             >
@@ -160,7 +163,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               onClick={() => onChangeViewMode('analytics')}
               className={`flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium rounded-full transition-all cursor-pointer ${
                 viewMode === 'analytics'
-                  ? 'bg-white dark:bg-[#2C2C2E] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+                  ? 'bg-white dark:bg-[#1E212B] text-neutral-900 dark:text-neutral-100 shadow-[0_1px_3px_rgba(0,0,0,0.1),_inset_0_1px_0_rgba(255,255,255,0.08)] font-semibold'
                   : 'text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200'
               }`}
             >

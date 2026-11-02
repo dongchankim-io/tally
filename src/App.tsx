@@ -557,7 +557,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F5F7] dark:bg-[#0A0A0C] font-sans text-neutral-900 dark:text-neutral-100 antialiased selection:bg-neutral-900 selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div className="flex flex-col h-full bg-[#F5F5F7] dark:bg-[#0D0E12] font-sans text-neutral-900 dark:text-neutral-100 antialiased selection:bg-neutral-900 selection:text-white dark:selection:bg-violet-500 dark:selection:text-white">
       {/* Top Header with traffic light safe spacing */}
       <Header
         currentDate={currentDate}
