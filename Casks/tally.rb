@@ -1,6 +1,6 @@
 cask "tally" do
   version "1.0.0"
-  sha256 "2202e26ddc3169b48ffbd2e823a27e4c065b7d0b98394a603aa33adb8b45075c"
+  sha256 "abdf09e28bfca397cc80b319ff6a26b93671a5c3b5dac4dd56e59f4d0f1590ca"
 
   url "https://github.com/dongchankim-io/tally/releases/download/v#{version}/Tally-#{version}-aarch64.dmg"
   name "Tally"
@@ -15,6 +15,11 @@ cask "tally" do
   depends_on macos: :ventura
 
   app "Tally.app"
+
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-cr", "#{appdir}/Tally.app"]
+  end
 
   zap trash: [
     "~/Library/Application Support/Tally",
