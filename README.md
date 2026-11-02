@@ -12,46 +12,85 @@
 
 ---
 
-## 📦 Installation
+## 📦 Installation & Setup
 
-### Method 1: Via Homebrew (Recommended)
+### Method 1: Homebrew (Recommended)
 
-You can install Tally directly using Homebrew:
+Install Tally with a single terminal command:
 
-```bash
-# Tap the repository and install
-brew tap dongchankim-io/tally
-brew install --cask tally
-```
-
-*Or via one-liner:*
 ```bash
 brew install --cask dongchankim-io/tally/tally
 ```
 
-To update Tally in the future:
+*Or by tapping the repository first:*
+```bash
+brew tap dongchankim-io/tally
+brew install --cask tally
+```
+
+#### Updating to the Latest Version:
 ```bash
 brew upgrade tally
 ```
 
+---
+
 ### Method 2: Direct Download (.dmg)
 
 1. Download the latest `Tally-x.x.x-aarch64.dmg` from the [**GitHub Releases**](https://github.com/dongchankim-io/tally/releases/latest) page.
-2. Open the `.dmg` and drag `Tally.app` into your `/Applications` folder.
+2. Double-click the downloaded `.dmg` file.
+3. Drag **Tally.app** into your **Applications** folder.
+4. Launch Tally from Spotlight (`⌘ Space` -> type `Tally`) or Launchpad.
 
-### 🗑️ Complete Clean Uninstallation
+> [!TIP]
+> **macOS Gatekeeper First Launch**: Because Tally is an independent open-source project without a paid Apple Developer notarization certificate, macOS might show a warning on first launch. If prompted, simply **Right-click (Control-click) `Tally.app` in Finder -> Open -> Click Open**.
 
-To remove Tally along with **all local data, settings, and cache files** completely:
+---
+
+## 🗑️ Uninstallation Guide
+
+Tally provides flexible uninstallation options depending on whether you want to preserve your financial data for future reinstallation or purge everything completely.
+
+### Option 1: Complete Clean Uninstall (Zero Data Left Behind)
+
+If you installed via Homebrew and want to permanently erase **the app, all ledger entries, settings, and cache files**:
 
 ```bash
 brew uninstall --cask --zap tally
 ```
-*(This deletes the application and purges `~/Library/Application Support/Tally`, preferences, and WKWebView state without leaving a trace).*
 
-To remove only the application binary while keeping your ledger data:
+This automatically purges all of the following locations without leaving a single trace:
+- `/Applications/Tally.app` (Application binary)
+- `~/Library/Application Support/Tally` (Local financial database & JSON files)
+- `~/Library/Application Support/com.tally.finance` (Tauri app metadata)
+- `~/Library/Preferences/com.tally.finance.plist` (User preferences & state)
+- `~/Library/Caches/com.tally.finance` (WKWebView cache)
+- `~/Library/WebKit/com.tally.finance` (Local storage & IndexedDB)
+- `~/Library/Saved Application State/com.tally.finance.savedState` (Window restoration cache)
+- `~/Library/HTTPStorages/com.tally.finance` (Network session storage)
+
+### Option 2: Remove App Only (Preserve Your Financial Data)
+
+If you wish to uninstall the application but **keep your personal financial data** intact for future use:
+
 ```bash
 brew uninstall --cask tally
 ```
+Your local data file remains safely in `~/Library/Application Support/Tally/tally_data.json` and will be automatically reloaded if you reinstall Tally later.
+
+### Option 3: Manual Removal (For Direct .dmg Users)
+
+If you installed Tally by dragging the `.app` manually:
+1. Open Finder, navigate to `/Applications`, and drag **Tally.app** to the Trash.
+2. *(Optional — Complete Purge)* Run the following terminal command to remove all associated local data and settings:
+   ```bash
+   rm -rf ~/Library/Application\ Support/Tally \
+          ~/Library/Application\ Support/com.tally.finance \
+          ~/Library/Preferences/com.tally.finance.plist \
+          ~/Library/Caches/com.tally.finance \
+          ~/Library/WebKit/com.tally.finance \
+          ~/Library/Saved\ Application\ State/com.tally.finance.savedState
+   ```
 
 ---
 
@@ -147,46 +186,85 @@ just ship
 
 ---
 
-## 📦 설치 방법
+## 📦 설치 및 업데이트 방법
 
 ### 방법 1: Homebrew로 설치 (가장 추천)
 
-터미널에서 아래 명령어를 입력하여 즉시 설치할 수 있습니다:
+터미널에서 한 줄 명령어로 즉시 설치할 수 있습니다:
 
-```bash
-# 탭 등록 및 설치
-brew tap dongchankim-io/tally
-brew install --cask tally
-```
-
-*또는 한 줄 명령어로 바로 설치:*
 ```bash
 brew install --cask dongchankim-io/tally/tally
 ```
 
-최신 버전으로 업데이트할 때:
+*또는 탭을 먼저 등록한 후 설치:*
+```bash
+brew tap dongchankim-io/tally
+brew install --cask tally
+```
+
+#### 최신 버전으로 업데이트:
 ```bash
 brew upgrade tally
 ```
 
+---
+
 ### 방법 2: GitHub Releases에서 .dmg 직접 다운로드
 
 1. [**GitHub Releases**](https://github.com/dongchankim-io/tally/releases/latest) 페이지에서 최신 `Tally-x.x.x-aarch64.dmg` 파일을 다운로드합니다.
-2. 다운로드한 `.dmg` 파일을 열고 `Tally.app`을 `Applications` 폴더로 드래그합니다.
+2. 다운로드한 `.dmg` 파일을 더블클릭하여 마운트합니다.
+3. **Tally.app**을 **Applications** 폴더로 드래그합니다.
+4. Spotlight(`⌘ Space` ➔ `Tally` 입력) 또는 런치패드에서 앱을 실행합니다.
 
-### 🗑️ 완전 삭제 (Clean Uninstallation)
+> [!TIP]
+> **macOS 게이트키퍼(Gatekeeper) 첫 실행 안내**: Tally는 애플 개발자 유료 인증서를 구입하지 않고 오픈소스로 배포되는 무료 소프트웨어이므로, 최초 1회 실행 시 *"확인되지 않은 개발자가 배포했기 때문에 열 수 없습니다"*라는 경고가 뜰 수 있습니다. 이때는 당황하지 마시고 **Finder의 응용 프로그램 폴더에서 `Tally.app`을 마우스 우클릭(또는 Control+클릭) ➔ [열기] ➔ 팝업창에서 [열기]**를 클릭해 주시면 이후부터는 정상 실행됩니다.
 
-가계부 데이터, 설정, 캐시 파일까지 **단 하나의 흔적도 남기지 않고 100% 완전 삭제**하려면:
+---
+
+## 🗑️ 제거 및 완전 삭제 방법 (Uninstallation)
+
+Tally는 가계부 장부 데이터를 나중에 다시 쓸 수 있도록 남겨둘지, 아니면 단 하나의 흔적도 없이 완전히 날려버릴지에 따라 다양한 삭제 방식을 제공합니다.
+
+### 방식 1: 흔적 없는 100% 완전 삭제 (데이터 + 설정 + 캐시 영구 삭제)
+
+Homebrew로 설치했고, 개인 금융 데이터와 환경설정까지 맥에서 **완벽하게 영구 삭제**하고 싶을 때:
 
 ```bash
 brew uninstall --cask --zap tally
 ```
-*(`Tally.app`뿐만 아니라 `~/Library/Application Support/Tally` 내부의 모든 장부 데이터 파일과 환경설정이 영구적으로 깔끔하게 삭제됩니다).*
 
-장부 데이터는 남겨두고 앱만 삭제할 때:
+위 명령어 하나로 아래 위치에 생성된 모든 파일이 단 1바이트도 남지 않고 자동 정리됩니다:
+- `/Applications/Tally.app` (프로그램 본체)
+- `~/Library/Application Support/Tally` (내 로컬 가계부 장부 데이터 JSON)
+- `~/Library/Application Support/com.tally.finance` (Tauri 앱 메타데이터)
+- `~/Library/Preferences/com.tally.finance.plist` (환경설정 파일)
+- `~/Library/Caches/com.tally.finance` (웹뷰 렌더링 캐시)
+- `~/Library/WebKit/com.tally.finance` (로컬 웹 스토리지/DB)
+- `~/Library/Saved Application State/com.tally.finance.savedState` (창 상태 복원 캐시)
+- `~/Library/HTTPStorages/com.tally.finance` (네트워크 세션 데이터)
+
+### 방식 2: 앱만 삭제 (내 가계부 장부 데이터 보존)
+
+프로그램만 지우고, **내가 기록한 가계부 내역 파일은 안전하게 남겨두고 싶을 때**:
+
 ```bash
 brew uninstall --cask tally
 ```
+내 장부 파일(`~/Library/Application Support/Tally/tally_data.json`)이 그대로 유지되므로, 나중에 Tally를 재설치하면 기존 가계부 내역이 자동으로 복원됩니다.
+
+### 방식 3: 수동 설치 사용자 (.dmg)를 위한 삭제 방법
+
+Homebrew 없이 `.dmg`로 직접 설치하셨던 경우:
+1. Finder의 `/Applications` 폴더에서 **Tally.app**을 휴지통으로 이동합니다.
+2. *(선택 — 모든 데이터까지 완전 정리할 경우)* 터미널에서 아래 명령어를 실행하여 잔여 설정 폴더를 삭제합니다:
+   ```bash
+   rm -rf ~/Library/Application\ Support/Tally \
+          ~/Library/Application\ Support/com.tally.finance \
+          ~/Library/Preferences/com.tally.finance.plist \
+          ~/Library/Caches/com.tally.finance \
+          ~/Library/WebKit/com.tally.finance \
+          ~/Library/Saved\ Application\ State/com.tally.finance.savedState
+   ```
 
 ---
 
