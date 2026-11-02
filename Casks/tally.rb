@@ -16,11 +16,6 @@ cask "tally" do
 
   app "Tally.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-cr", "#{appdir}/Tally.app"]
-  end
-
   zap trash: [
     "~/Library/Application Support/Tally",
     "~/Library/Application Support/com.tally.finance",

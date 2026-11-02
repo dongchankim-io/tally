@@ -74,6 +74,9 @@ build-dmg version=VERSION:
     @echo "==> Building Tally v{{version}} .dmg package..."
     @source "$HOME/.cargo/env" 2>/dev/null || true
     pnpm build:app
+    @echo "==> Sealing and signing app bundle resources..."
+    @codesign --force --deep --sign - "src-tauri/target/release/bundle/macos/Tally.app"
+    @codesign -vvv --deep --strict "src-tauri/target/release/bundle/macos/Tally.app"
     @rm -rf release
     @mkdir -p release/dmg_staging
     @cp -R src-tauri/target/release/bundle/macos/Tally.app release/dmg_staging/
