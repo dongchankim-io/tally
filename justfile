@@ -134,8 +134,12 @@ cask version=VERSION:
       '' \
       '  zap trash: [' \
       '    "~/Library/Application Support/Tally",' \
+      '    "~/Library/Application Support/com.tally.finance",' \
+      '    "~/Library/Caches/com.tally.finance",' \
+      '    "~/Library/HTTPStorages/com.tally.finance",' \
       '    "~/Library/Preferences/com.tally.finance.plist",' \
       '    "~/Library/Saved Application State/com.tally.finance.savedState",' \
+      '    "~/Library/WebKit/com.tally.finance",' \
       '  ]' \
       'end' > Casks/tally.rb
     echo "✅ Homebrew Cask formula generated at Casks/tally.rb"
